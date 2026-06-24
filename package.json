@@ -1,0 +1,26 @@
+{
+  "name": "code-pilot",
+  "version": "1.0.0",
+  "description": "A scoped-down cloud IDE backend: on-demand isolated Docker containers with a browser-based terminal over WebSocket.",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js"
+  },
+  "keywords": [
+    "docker",
+    "websocket",
+    "terminal",
+    "cloud-ide"
+  ],
+  "author": "Viraj Reddy",
+  "license": "MIT",
+  "dependencies": {
+    "@xterm/addon-attach": "^0.12.0",
+    "@xterm/addon-fit": "^0.11.0",
+    "@xterm/xterm": "^6.0.0",
+    "dockerode": "^5.0.0",
+    "express": "^5.2.1",
+    "ws": "^8.21.0"
+  }
+}

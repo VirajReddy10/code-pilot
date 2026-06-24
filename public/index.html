@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Code-Pilot</title>
+    <link rel="stylesheet" href="/node_modules/@xterm/xterm/css/xterm.css" />
+    <style>
+        body {
+            margin: 0;
+            background: #1e1e1e;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            font-family: monospace;
+        }
+        header {
+            color: #ccc;
+            padding: 0.5rem 1rem;
+            background: #252526;
+            border-bottom: 1px solid #333;
+        }
+        #terminal {
+            flex: 1;
+            padding: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <header>Code-Pilot — isolated container session</header>
+    <div id="terminal"></div>
+
+    <script type="module">
+        import { Terminal } from '/node_modules/@xterm/xterm/lib/xterm.mjs';
+        import { AttachAddon } from '/node_modules/@xterm/addon-attach/lib/addon-attach.mjs';
+        import { FitAddon } from '/node_modules/@xterm/addon-fit/lib/addon-fit.mjs';
+        
+        const term = new Terminal({ cursorBlink: true, fontSize: 14 });
+        const fitAddon = new FitAddon();
+        term.loadAddon(fitAddon);
+        term.open(document.getElementById('terminal'));
+        fitAddon.fit();
+
+        window.addEventListener('resize', () => fitAddon.fit());
+
+        const socket = new WebSocket(`ws://${window.location.host}`);
+        socket.binaryType = 'arraybuffer';
+
+        socket.addEventListener('open', () => {
+            const attachAddon = new AttachAddon(socket);
+            term.loadAddon(attachAddon);
+            term.focus();
+        });
+    </script>
+</body>
+</html>
